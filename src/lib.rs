@@ -34,6 +34,7 @@ use generic::*;
 pub mod generic;
 #[cfg(feature = "rt")]
 extern "C" {
+    fn RTT();
     fn PMC();
     fn EFC0();
     fn EFC1();
@@ -83,7 +84,7 @@ pub static __INTERRUPTS: [Vector; 45] = [
     Vector { _reserved: 0 },
     Vector { _reserved: 0 },
     Vector { _reserved: 0 },
-    Vector { _reserved: 0 },
+    Vector { _handler: RTT },
     Vector { _reserved: 0 },
     Vector { _handler: PMC },
     Vector { _handler: EFC0 },
@@ -130,6 +131,8 @@ pub static __INTERRUPTS: [Vector; 45] = [
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[repr(u16)]
 pub enum Interrupt {
+    #[doc = "3 - RTT"]
+    RTT = 3,
     #[doc = "5 - PMC"]
     PMC = 5,
     #[doc = "6 - EFC0"]
